@@ -1,4 +1,4 @@
-# definit la classe player qui attribue un nom à chaque joueur
+# definit la classe player qui attribue un nom et un symbole de jeu à chaque joueur
 class Player
    attr_accessor :name, :symbol
    def initialize(name_to_save, symbol_to_save)

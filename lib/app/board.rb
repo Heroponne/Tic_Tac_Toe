@@ -3,7 +3,7 @@ Bundler.require
 
 require 'board_case'
 
-# definit un plateau de jeu
+# definit un plateau de jeu avec un tableau de ses cases et un compteur de tours, et les actions qui le modifient
 class Board
   attr_accessor :board_case_array, :count_turn
   def initialize
@@ -20,25 +20,31 @@ class Board
   	@count_turn = 0
   end
 
+# modifie le contenu d'une case et incremente le compteur de tours
   def play_turn(player)
   	puts "Que veux-tu faire, #{player.name} ? Choisis un numéro de case (1-9)"
   	print "> "
   	answer_number = gets.chomp.to_i
+  	# les reponses doivent être un chiffre entre 1 et 9
   	while answer_number != 1 && answer_number != 2 && answer_number != 3 && answer_number != 4 && answer_number != 5 && answer_number != 6 && answer_number != 7 && answer_number != 8 && answer_number != 9
       puts "ce n'est pas une case valable, rééssaie :"
       print "> :"
       answer_number = gets.chomp.to_i
     end
+    # les reponses ne doivent pas être une case déjà utilisée
   	while @board_case_array[answer_number - 1].content == "o" || @board_case_array[answer_number - 1].content == "x" 
       puts "la place est déjà prise, rééssaie :"
       print "> :"
       answer_number = gets.chomp.to_i
     end
+    # la case choisie est remplie avec le symbole du joueur
     @board_case_array[answer_number - 1].content = player.symbol
   	@count_turn += 1
   end 
 
+# definit les conditions de victoire
   def victory?
+  	# il faut 3 symboles identiques alignés
     if ((@board_case_array[0].content == @board_case_array[1].content) && (@board_case_array[0].content == @board_case_array[2].content)) && (@board_case_array[0].content == "x" || @board_case_array[0].content == "o") || ((@board_case_array[3].content == @board_case_array[4].content) && (@board_case_array[3].content == @board_case_array[5].content)) && (@board_case_array[3].content == "x" || @board_case_array[3].content == "o") || ((@board_case_array[6].content == @board_case_array[7].content) && (@board_case_array[6].content == @board_case_array[8].content)) && (@board_case_array[6].content == "x" || @board_case_array[6].content == "o")|| ((@board_case_array[0].content == @board_case_array[3].content) && (@board_case_array[0].content == @board_case_array[6].content)) && (@board_case_array[0].content == "x" || @board_case_array[0].content == "o") || ((@board_case_array[1].content == @board_case_array[4].content) && (@board_case_array[1].content == @board_case_array[7].content)) && (@board_case_array[1].content == "x" || @board_case_array[1].content == "o") || ((@board_case_array[2].content == @board_case_array[5].content) && (@board_case_array[2].content == @board_case_array[8].content)) && (@board_case_array[2].content == "x" || @board_case_array[2].content == "o")|| ((@board_case_array[0].content == @board_case_array[4].content) && (@board_case_array[0].content == @board_case_array[8].content)) && (@board_case_array[0].content == "x" || @board_case_array[0].content == "o") || ((@board_case_array[2].content == @board_case_array[4].content) && (@board_case_array[2].content == @board_case_array[6].content) && (@board_case_array[2].content == "x" || @board_case_array[2].content == "o"))
       return true
     else
